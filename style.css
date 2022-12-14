@@ -59,6 +59,23 @@ h1 {
   opacity: 0.7;
 }
 
+.addEditButton {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  outline: none;
+  border: none;
+  background-color: white;
+  color: #fff;
+  margin: 0.25rem;
+  background-color: rgba(25, 190, 185, 0.485);
+  cursor: pointer;
+}
+
+.addEditButton:hover {
+  opacity: 0.7;
+}
+
 .container {
   display: flex;
   flex-direction: column;
