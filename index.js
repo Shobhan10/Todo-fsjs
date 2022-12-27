@@ -2,63 +2,50 @@ const addButton = document.querySelector(".addButton");
 const container = document.querySelector(".container");
 const inputDiv = document.querySelector(".input_div");
 
-const addEditButton = document.createElement("button");
-addEditButton.classList.add("addEditButton");
-addEditButton.textContent = "EDIT";
-inputDiv.appendChild(addEditButton);
-addEditButton.style.display = "none";
+// const addEditButton = document.createElement("button");
+// addEditButton.classList.add("addEditButton");
+// addEditButton.textContent = "EDIT";
+// inputDiv.appendChild(addEditButton);
+// addEditButton.style.display = "none";
+
+const previousTask = JSON.parse(localStorage.getItem("myTodo"));
+
+if (!previousTask) {
+  myTodo = [];
+} else {
+  myTodo = previousTask;
+}
+
+showTodo();
+
+addButton.addEventListener("click", createTodo);
 
 function createTodo() {
   let input = document.querySelector(".input").value;
 
   if (input) {
-    const item = document.createElement("div");
-    item.classList.add("item");
-    container.append(item);
-
-    const itemInput = document.createElement("div");
-    itemInput.classList.add("item_input");
-    itemInput.textContent = input;
-    item.append(itemInput);
-
-    const editButton = document.createElement("button");
-    editButton.classList.add("editButton");
-    editButton.textContent = "EDIT";
-    item.append(editButton);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("deleteButton");
-    deleteButton.textContent = "DELETE";
-    item.append(deleteButton);
-
-    document.querySelector(".input").value = "";
+    myTodo.push(input.trim());
   }
-  const todos = document.querySelectorAll(".item");
-  console.log(todos);
 
-  // for (let todo = 0; todo < todos.length; todo++) {
-  //   todos[todo].addEventListener("click", () => console.log("clicked"));
-  // }
+  localStorage.setItem("myTodo", JSON.stringify(myTodo));
 
-  const editButton = document.querySelectorAll(".editButton");
-  const itemInput = document.querySelectorAll(".item_input");
+  document.querySelector(".input").value = "";
 
-  for (let todo = 0; todo < todos.length; todo++) {
-    editButton[todo].addEventListener("click", () => {
-      document.querySelector(".input").value = itemInput[todo].innerText;
-
-      addButton.style.display = "none";
-
-      addEditButton.style.display = "block";
-
-      addEditButton.addEventListener("click", () => {
-        itemInput[todo].innerText = document.querySelector(".input").value;
-        addEditButton.style.display = "none";
-        addButton.style.display = "block";
-        document.querySelector(".input").value = "";
-      });
-    });
-  }
+  showTodo();
 }
 
-addButton.addEventListener("click", createTodo);
+function showTodo() {
+  let todoEl = "";
+
+  myTodo.forEach((todo) => {
+    todoEl += `
+        <div class="item">
+          <div class="item_input">${todo}</div>
+          <button class="editButton">EDIT</button>
+          <button class="deleteButton">DELETE</button>
+        </div>
+    `;
+  });
+
+  container.innerHTML = todoEl;
+}
