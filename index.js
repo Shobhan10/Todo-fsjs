@@ -9,6 +9,7 @@ addEditButton.textContent = "EDIT";
 inputDiv.appendChild(addEditButton);
 addEditButton.style.display = "none";
 
+let myTodo = [];
 const previousTask = JSON.parse(localStorage.getItem("myTodo"));
 if (!previousTask) {
   myTodo = [];
@@ -42,11 +43,10 @@ function showTodo() {
         <div class="item">
           <div class="item_input">${todo}</div>
           <button class="editButton" onClick="editTodo(${index})">EDIT</button>
-          <button class="deleteButton">DELETE</button>
+          <button class="deleteButton" onClick="deleteTodo(${index})">DELETE</button>
         </div>
     `;
   });
-
   container.innerHTML = todoEl;
 }
 
@@ -73,3 +73,16 @@ addEditButton.addEventListener("click", () => {
   localStorage.setItem("myTodo", JSON.stringify(myTodo));
   showTodo();
 });
+
+function deleteTodo(index) {
+  addEditButton.style.display = "none";
+  addButton.style.display = "block";
+  inputEl.value = "";
+
+  // myTodo.splice(index, 1);
+
+  myTodo = myTodo.filter((todo) => todo !== myTodo[index]);
+
+  localStorage.setItem("myTodo", JSON.stringify(myTodo));
+  showTodo();
+}
